@@ -21,7 +21,7 @@ function Sidebar() {
                     </NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to="/admin/products" className="nav-link" activeClassName="active">
+                    <NavLink to="/vendor/products" className="nav-link" activeClassName="active">
                         <i className="fa fa-product-hunt"></i> Products
                     </NavLink>
                 </li>
