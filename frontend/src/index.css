@@ -1,0 +1,54 @@
+html,
+body {
+  height: 100%; /* Ensure full height for the body */
+  margin: 0; /* Remove default margin */
+}
+
+.vh-100 {
+  min-height: 100vh; /* Ensure the section takes at least the full viewport height */
+  display: flex; /* Enable flexbox layout */
+  flex-direction: column; /* Align children vertically */
+}
+
+.container-fluid {
+  flex: 1; /* Allow the container to grow and take available space */
+}
+
+footer {
+  background-color: rgba(0, 0, 0, 0.2); /* Optional: Customize footer background */
+  text-align: center; /* Center the footer text */
+}
+
+.form-outline {
+  margin-bottom: 1rem; /* Ensure some spacing between form elements */
+}
+
+
+.sidebar-header {
+  padding: 15px; /* Padding for header */
+  background: #f8f9fa; /* Header background */
+  border-bottom: 1px solid #e4e4e4; /* Bottom border */
+}
+
+.sidebar .nav-link {
+  padding: 10px 15px; /* Padding for links */
+}
+
+.sidebar .nav-link:hover {
+  background: #e9ecef; /* Change background on hover */
+}
+
+.sidebar .active {
+  background: #007bff; /* Active link background */
+  color: white; /* Active link text color */
+}
+
+/* Optional styles for better layout */
+.container {
+  padding-left: 0; /* Remove padding on the left for the container */
+}
+
+.sidebar {
+  min-width: 200px; /* Ensure minimum width for the sidebar */
+  background-color: #f8f9fa; /* Light background for the sidebar */
+}
