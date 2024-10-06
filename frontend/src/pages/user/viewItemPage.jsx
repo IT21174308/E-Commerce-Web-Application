@@ -190,50 +190,84 @@ function ViewItemPage() {
                         </Modal.Footer>
                     </Modal>
 
-                    {/* Modal for Payment Details */}
-                    <Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Payment Details</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                        <p>Total: Rs. {product.price * buyQuantity}</p>
+                   {/* Modal for Payment Details */}
+<Modal show={showPaymentModal} onHide={() => setShowPaymentModal(false)}>
+    <Modal.Header closeButton>
+        <Modal.Title>Payment Details</Modal.Title>
+    </Modal.Header>
+    <Modal.Body>
+        <p>Total: Rs. {product.price * buyQuantity}</p>
 
-                            <Form.Group controlId="paymentName">
-                                <Form.Label>Name:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter your name"
-                                    value={paymentDetails.name}
-                                    onChange={(e) => setPaymentDetails({ ...paymentDetails, name: e.target.value })}
-                                />
-                            </Form.Group>
+        <Form.Group controlId="paymentName">
+            <Form.Label>Name:</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Enter your name"
+                value={paymentDetails.name}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, name: e.target.value })}
+            />
+        </Form.Group>
 
-                            <Form.Group controlId="paymentAddress" className="mt-3">
-                                <Form.Label>Shipping Address:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter shipping address"
-                                    value={paymentDetails.shippingAddress}
-                                    onChange={(e) => setPaymentDetails({ ...paymentDetails, shippingAddress: e.target.value })}
-                                />
-                            </Form.Group>
+        <Form.Group controlId="paymentAddress" className="mt-3">
+            <Form.Label>Shipping Address:</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Enter shipping address"
+                value={paymentDetails.shippingAddress}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, shippingAddress: e.target.value })}
+            />
+        </Form.Group>
 
-                            <Form.Group controlId="paymentMobile" className="mt-3">
-                                <Form.Label>Mobile Number:</Form.Label>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Enter mobile number"
-                                    value={paymentDetails.mobileNumber}
-                                    onChange={(e) => setPaymentDetails({ ...paymentDetails, mobileNumber: e.target.value })}
-                                />
-                            </Form.Group>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button variant="primary" onClick={handlePaymentSubmit}>
-                                Confirm Payment
-                            </Button>
-                        </Modal.Footer>
-                    </Modal>
+        <Form.Group controlId="paymentMobile" className="mt-3">
+            <Form.Label>Mobile Number:</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Enter mobile number"
+                value={paymentDetails.mobileNumber}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, mobileNumber: e.target.value })}
+            />
+        </Form.Group>
+
+        {/* Card Number Field */}
+        <Form.Group controlId="cardNumber" className="mt-3">
+            <Form.Label>Card Number:</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Enter your card number"
+                value={paymentDetails.cardNumber}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, cardNumber: e.target.value })}
+            />
+        </Form.Group>
+
+        {/* Expiration Date Field */}
+        <Form.Group controlId="expirationDate" className="mt-3">
+            <Form.Label>Expiration Date (MM/YY):</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="MM/YY"
+                value={paymentDetails.expirationDate}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, expirationDate: e.target.value })}
+            />
+        </Form.Group>
+
+        {/* CVV Field */}
+        <Form.Group controlId="cvv" className="mt-3">
+            <Form.Label>CVV:</Form.Label>
+            <Form.Control
+                type="text"
+                placeholder="Enter your CVV"
+                value={paymentDetails.cvv}
+                onChange={(e) => setPaymentDetails({ ...paymentDetails, cvv: e.target.value })}
+            />
+        </Form.Group>
+    </Modal.Body>
+    <Modal.Footer>
+        <Button variant="primary" onClick={handlePaymentSubmit}>
+            Confirm Payment
+        </Button>
+    </Modal.Footer>
+</Modal>
+
 
                             {/* Reviews Section */}
                   <div className="row mt-5">
