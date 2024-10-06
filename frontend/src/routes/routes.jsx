@@ -22,7 +22,7 @@ function AppRoutes() {
         <Route path="/admin-dashboard" element={<AdminDashboard />} />
         <Route path="/vendor/products" element={<ProductList />} />
         <Route path="/orders" element={<OrderManagement />} />
-        <Route path="/cancel-requests" element={<CancelRequests />} />
+        <Route path="/cancelRequests" element={<CancelRequests />} />
 
         {/* customer routes */}
         <Route path="/home" element={<HomePage />} />
