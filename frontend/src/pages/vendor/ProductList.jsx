@@ -251,9 +251,6 @@ function ProductList() {
                     {selectedImage && <img src={selectedImage} alt="Zoomed" className="img-fluid" />}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseImageModal}>
-                        Close
-                    </Button>
                 </Modal.Footer>
             </Modal>
 
