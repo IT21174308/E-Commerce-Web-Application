@@ -13,7 +13,6 @@ import OrderManagement from '../pages/OrderManagement';
 // import AccountApproval from './pages/AccountApproval';
 import HomePage from '../pages/user/HomePage';
 import ViewItemPage from '../pages/user/viewItemPage'; 
-import PurchaseDetails from '../pages/user/purchaseDetails';
 import MyCart from '../pages/user/MyCart';
 function AppRoutes() {
   return (
@@ -28,7 +27,6 @@ function AppRoutes() {
         <Route path="/orders" element={<OrderManagement />} />
         <Route path="/home" element={<HomePage />} />
         <Route path="/viewItem/:productId" element={<ViewItemPage />} />
-        <Route path="/purchaseDetails" element={<PurchaseDetails />} />
         <Route path="/mycart" element={<MyCart />} />
 
 
