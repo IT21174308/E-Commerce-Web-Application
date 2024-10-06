@@ -5,6 +5,16 @@ function Sidebar() {
     return (
         <nav className="sidebar bg-light">
             <ul className="nav flex-column">
+            <li className="nav-item">
+                    <NavLink to="/home" className="nav-link" activeClassName="active">
+                        <i className="fa fa-house"></i> Home
+                    </NavLink>
+                </li> 
+                <li className="nav-item">
+                    <NavLink to="/mycart" className="nav-link" activeClassName="active">
+                        <i className="fa fa-shopping-cart"></i> My Cart
+                    </NavLink>
+                </li>
                 <li className="nav-item">
                     <NavLink to="/admin/dashboard" className="nav-link" activeClassName="active">
                         <i className="fa fa-dashboard"></i> Dashboard
@@ -16,8 +26,8 @@ function Sidebar() {
                     </NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to="/admin/orders" className="nav-link" activeClassName="active">
-                        <i className="fa fa-shopping-cart"></i> Orders
+                    <NavLink to="/orders" className="nav-link" activeClassName="active">
+                        <i className="fa fa-first-order"></i> Orders
                     </NavLink>
                 </li>
                 <li className="nav-item">
