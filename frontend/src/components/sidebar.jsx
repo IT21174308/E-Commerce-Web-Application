@@ -26,6 +26,11 @@ function Sidebar() {
                     </NavLink>
                 </li>
                 <li className="nav-item">
+                    <NavLink to="/cancelRequests" className="nav-link" activeClassName="active">
+                        <i className="fa fa-note-sticky"></i> Cancel Notice
+                    </NavLink>
+                </li>
+                <li className="nav-item">
                     <NavLink to="/admin-dashboard" className="nav-link" activeClassName="active">
                         <i className="fa fa-users"></i> Vendors
                     </NavLink>
