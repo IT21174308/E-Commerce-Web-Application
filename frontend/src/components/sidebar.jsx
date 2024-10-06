@@ -16,6 +16,11 @@ function Sidebar() {
                     </NavLink>
                 </li>
                 <li className="nav-item">
+                    <NavLink to="/myorders" className="nav-link" activeClassName="active">
+                        <i className="fa fa-first-order"></i> My Orders
+                    </NavLink>
+                </li> 
+                <li className="nav-item">
                     <NavLink to="/admin/dashboard" className="nav-link" activeClassName="active">
                         <i className="fa fa-dashboard"></i> Dashboard
                     </NavLink>
