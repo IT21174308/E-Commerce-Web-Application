@@ -65,6 +65,8 @@ builder.Services.AddAuthentication(x =>
 // Register application services
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
