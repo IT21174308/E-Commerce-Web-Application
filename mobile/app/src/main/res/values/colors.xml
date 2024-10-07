@@ -4,4 +4,6 @@
     <color name="white">#FFFFFFFF</color>
     <color name="background_light">#FFFFFFFF</color>
     <color name="text_color_dark">#FF000000</color>
+    <color name="purple">#a421d8</color>
+    <color name="grey">#E9E9E9</color>
 </resources>
