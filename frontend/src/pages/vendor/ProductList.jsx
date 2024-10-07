@@ -7,17 +7,17 @@ import Sidebar from '../../components/sidebar'; // Adjust the import path as nec
 import { Modal, Button } from 'react-bootstrap'; // Import Modal from react-bootstrap
 
 const initialProducts = [
-    { productId: "P001", name: "Product 1", brand: "Brand A", quantity: 50, price: 100, image: require('../../assets/bag.webp').default },
-    { productId: "P002", name: "Product 2", brand: "Brand B", quantity: 30, price: 200, image: require('../../assets/logo.png').default },
-    { productId: "P003", name: "Product 3", brand: "Brand C", quantity: 20, price: 300, image: require('../../assets/bag.webp').default },
-    { productId: "P004", name: "Product 4", brand: "Brand D", quantity: 10, price: 400, image: require('../../assets/bag.webp').default },
-    { productId: "P005", name: "Product 5", brand: "Brand E", quantity: 40, price: 500, image: require('../../assets/bag.webp').default },
+    { productId: "P001", name: "Product 1", brand: "Brand A", quantity: 50, price: 100, image: require('../../assets/bag.webp').default, reorderLevel: 30, stock: 40, isActive: true },
+    { productId: "P002", name: "Product 2", brand: "Brand B", quantity: 30, price: 200, image: require('../../assets/logo.png').default, reorderLevel: 15, stock: 10, isActive: true },
+    { productId: "P003", name: "Product 3", brand: "Brand C", quantity: 20, price: 300, image: require('../../assets/bag.webp').default, reorderLevel: 20, stock: 20, isActive: true },
+    { productId: "P004", name: "Product 4", brand: "Brand D", quantity: 10, price: 400, image: require('../../assets/bag.webp').default, reorderLevel: 5, stock: 2, isActive: false },
+    { productId: "P005", name: "Product 5", brand: "Brand E", quantity: 40, price: 500, image: require('../../assets/bag.webp').default, reorderLevel: 35, stock: 50, isActive: true },
 ];
 
 function ProductList() {
     const [products, setProducts] = useState(initialProducts);
     const [activeTab, setActiveTab] = useState('view');
-    const [newProduct, setNewProduct] = useState({ productId: '', name: '', brand: '', quantity: '', price: '', image: '' });
+    const [newProduct, setNewProduct] = useState({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
     const [showModal, setShowModal] = useState(false); // State for modal visibility
     const [currentProduct, setCurrentProduct] = useState(null); // State for current product being edited
     const [showImageModal, setShowImageModal] = useState(false); // State for image zoom modal
@@ -41,7 +41,7 @@ function ProductList() {
 
     const handleAddProduct = () => {
         setProducts([...products, newProduct]);
-        setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '' });
+        setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
         setActiveTab('view');
     };
 
@@ -59,7 +59,7 @@ function ProductList() {
     const handleCloseModal = () => {
         setShowModal(false);
         setCurrentProduct(null);
-        setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '' });
+        setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
     };
 
     const handleSaveChanges = () => {
@@ -116,27 +116,20 @@ function ProductList() {
                                             <tr>
                                                 <th>Product ID</th>
                                                 <th>Name</th>
-                                                <th>Brand</th>
-                                                <th>Quantity</th>
-                                                <th>Price</th>
-                                                <th>Status</th>
                                                 <th>Image</th>
+                                                <th>Brand</th>
+                                                <th>Price</th>
+                                                <th>Reorder Level</th>
+                                                <th>Stock</th>
+                                                <th>Status</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             {products.map((product) => (
-                                                <tr key={product.productId}>
+                                                <tr key={product.productId} className={product.reorderLevel > product.stock ? 'table-danger' : ''}>
                                                     <td>{product.productId}</td>
                                                     <td>{product.name}</td>
-                                                    <td>{product.brand}</td>
-                                                    <td>{product.quantity}</td>
-                                                    <td>Rs. {product.price}</td>
-                                                    <td>
-                                                        <span className={`badge ${product.isActive ? 'bg-success' : 'bg-danger'}`}>
-                                                            {product.isActive ? 'Active' : 'Inactive'}
-                                                        </span>
-                                                    </td>
                                                     <td>
                                                         {product.image && (
                                                             <img 
@@ -146,6 +139,15 @@ function ProductList() {
                                                                 onClick={() => handleImageClick(product.image)} // Open zoom on click
                                                             />
                                                         )}
+                                                    </td>
+                                                    <td>{product.brand}</td>
+                                                    <td>Rs. {product.price}</td>
+                                                    <td>{product.reorderLevel}</td>
+                                                    <td>{product.stock}</td>
+                                                    <td>
+                                                        <span className={`badge ${product.isActive ? 'bg-success' : 'bg-danger'}`}>
+                                                            {product.isActive ? 'Active' : 'Inactive'}
+                                                        </span>
                                                     </td>
                                                     <td>
                                                         <span className="me-2" data-bs-toggle="tooltip" data-bs-placement="top" title="Edit">
@@ -241,66 +243,59 @@ function ProductList() {
                     </div>
                 </div>
             </div>
+            <Footer />
 
-            {/* Image Zoom Modal */}
-            <Modal show={showImageModal} onHide={handleCloseImageModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Image Preview</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    {selectedImage && <img src={selectedImage} alt="Zoomed" className="img-fluid" />}
-                </Modal.Body>
-                <Modal.Footer>
-                </Modal.Footer>
-            </Modal>
-
-            {/* Edit Product Modal */}
+            {/* Edit Modal */}
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Product</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form>
-                        {/* Add the form fields for editing the product */}
-                        <div className="mb-2">
-                            <label htmlFor="editProductName" className="form-label">Product Name</label>
-                            <input type="text" className="form-control" id="editProductName" name="name"
-                                value={newProduct.name}
-                                onChange={handleInputChange}
-                            />
+                        <div className="form-group mb-2">
+                            <label>Product ID:</label>
+                            <input type="text" className="form-control" name="productId" value={newProduct.productId} onChange={handleInputChange} />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="editProductBrand" className="form-label">Brand</label>
-                            <input type="text" className="form-control" id="editProductBrand" name="brand"
-                                value={newProduct.brand}
-                                onChange={handleInputChange}
-                            />
+                        <div className="form-group mb-2">
+                            <label>Name:</label>
+                            <input type="text" className="form-control" name="name" value={newProduct.name} onChange={handleInputChange} />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="editProductQuantity" className="form-label">Quantity</label>
-                            <input type="number" className="form-control" id="editProductQuantity" name="quantity"
-                                value={newProduct.quantity}
-                                onChange={handleInputChange}
-                            />
+                        <div className="form-group mb-2">
+                            <label>Brand:</label>
+                            <input type="text" className="form-control" name="brand" value={newProduct.brand} onChange={handleInputChange} />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="editProductPrice" className="form-label">Price</label>
-                            <input type="number" className="form-control" id="editProductPrice" name="price"
-                                value={newProduct.price}
-                                onChange={handleInputChange}
-                            />
+                        <div className="form-group mb-2">
+                            <label>Quantity:</label>
+                            <input type="number" className="form-control" name="quantity" value={newProduct.quantity} onChange={handleInputChange} />
                         </div>
-                        <div className="mb-2">
-                            <label htmlFor="editProductImage" className="form-label">Image</label>
-                            <input type="file" className="form-control" id="editProductImage" accept="image/*"
-                                onChange={handleImageChange}
-                            />
+                        <div className="form-group mb-2">
+                            <label>Price:</label>
+                            <input type="number" className="form-control" name="price" value={newProduct.price} onChange={handleInputChange} />
+                        </div>
+                        <div className="form-group mb-2">
+                            <label>Reorder Level:</label>
+                            <input type="number" className="form-control" name="reorderLevel" value={newProduct.reorderLevel} onChange={handleInputChange} />
+                        </div>
+                        <div className="form-group mb-2">
+                            <label>Stock:</label>
+                            <input type="number" className="form-control" name="stock" value={newProduct.stock} onChange={handleInputChange} />
+                        </div>
+                        <div className="form-group mb-2">
+                            <label>Image:</label>
+                            <input type="file" className="form-control-file" onChange={handleImageChange} />
+                        </div>
+                        <div className="form-group mb-2">
+                            <label>Status:</label>
+                            <select className="form-control" name="isActive" value={newProduct.isActive} onChange={handleInputChange}>
+                                <option value={true}>Active</option>
+                                <option value={false}>Inactive</option>
+                            </select>
                         </div>
                     </form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
-                        Cancel
+                        Close
                     </Button>
                     <Button variant="primary" onClick={handleSaveChanges}>
                         Save Changes
@@ -308,7 +303,22 @@ function ProductList() {
                 </Modal.Footer>
             </Modal>
 
-            <Footer />
+            {/* Image Zoom Modal */}
+            <Modal show={showImageModal} onHide={handleCloseImageModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Image Preview</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {selectedImage && (
+                        <img src={selectedImage} alt="Zoomed" className="img-fluid" />
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseImageModal}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }

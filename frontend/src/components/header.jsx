@@ -15,17 +15,17 @@ function Header() {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         {/* Logo */}
-        <a className="navbar-brand" href="#">
+        <a className="navbar-brand">
           <img src={logo} alt="Logo" style={{ height: '50px' }} />
-          ProShop
+          ShopSphere
         </a>
 
         {/* Conditional rendering based on login state */}
         {isLoggedIn ? (
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-              <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+              {/* <li className="nav-item">
+                <a className="nav-link active" aria-current="page" href="/home">
                   Home
                 </a>
               </li>
@@ -33,7 +33,7 @@ function Header() {
                 <a className="nav-link" href="#">
                   About
                 </a>
-              </li>
+              </li> */}
               {/* 
               <li className="nav-item dropdown">
                 <a
