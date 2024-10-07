@@ -8,17 +8,15 @@
     <fragment
         android:id="@+id/FirstFragment"
         android:name="com.mobile.platform.FirstFragment"
-        android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
         <action
             android:id="@+id/action_FirstFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/LoginFragment" />
     </fragment>
 
     <fragment
-        android:id="@+id/loginFragment"
+        android:id="@+id/LoginFragment"
         android:name="com.mobile.platform.LoginFragment"
-        android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_SecondFragment"
@@ -27,7 +25,6 @@
 
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.mobile.platform.SecondFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_second"/>
+        android:name="com.mobile.platform.HomeFragment"
+        tools:layout="@layout/fragment_home"/>
 </navigation>
