@@ -37,7 +37,7 @@ public class AuthController : ControllerBase
         var token = await _authService.Login(userLoginDTO);
         if (token != null)
         {
-            return Ok(new { token });
+            return Ok(token );
         }
 
         return Unauthorized("Invalid login attempt.");

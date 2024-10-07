@@ -21,12 +21,5 @@ namespace Ecommerce.Models
         [PersonalData]
         public UserRole Role { get; set; } = UserRole.Customer;
 
-        public enum UserRole
-        {
-            Admin,
-            Vendor,
-            Customer
-        }
-
     }
 }

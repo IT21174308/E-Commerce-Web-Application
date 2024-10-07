@@ -38,16 +38,19 @@ namespace Ecommerce.Services
             return await _userRepository.CreateUserAsync(user, userRegisterDTO.Password);
         }
 
-        public async Task<string> Login(UserLoginDTO userLoginDTO)
+        public async Task<LoginResponseDto> Login(UserLoginDTO userLoginDTO)
         {
+            LoginResponseDto loginResponseDto = new LoginResponseDto();
             User user = await _userRepository.FindByEmailAsync(userLoginDTO.Email);
 
             if (user != null && await _userRepository.CheckPasswordAsync(user, userLoginDTO.Password))
             {
-                return GenerateJwtToken(user);
+                loginResponseDto.Token = GenerateJwtToken(user);
             }
 
-            return null;
+            loginResponseDto.Role = user.Role;
+
+            return loginResponseDto;
         }
 
 
