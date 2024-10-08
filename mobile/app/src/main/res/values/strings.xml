@@ -8,12 +8,16 @@
     <string name="previous">Previous</string>
 
     <string name="app_logo">App Logo</string>
+    <string name="hint_name">Name</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
+    <string name="hint_confirm_password">Confirm Password</string>
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_button">Login</string>
+    <string name="register_button">Sign Up</string>
 
     <string name="sign_up_prompt">Don\'t have an account? Sign up</string>
+    <string name="login_prompt">Already have an account? Login</string>
     <string name="lorem_ipsum_short">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
         volutpat, dolor id interdum ullamcorper, risus dolor egestas lectus, sit amet mattis purus
