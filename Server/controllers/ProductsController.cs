@@ -13,11 +13,13 @@ namespace Ecommerce.Controllers
     {
         private readonly IProductService _productService;
 
+        // Dependancy Injection  ProductService
         public ProductsController(IProductService productService)
         {
             _productService = productService;
         }
 
+        // Get all products
         [HttpGet]
         public async Task<ActionResult<List<Product>>> Get()
         {
@@ -25,6 +27,7 @@ namespace Ecommerce.Controllers
             return Ok(products); // Return 200 with the list of products
         }
 
+        // Get product by id
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> Get(string id)
         {
@@ -36,6 +39,7 @@ namespace Ecommerce.Controllers
             return Ok(product);
         }
 
+        // Create product
         [HttpPost]
         public async Task<ActionResult<Product>> Post([FromBody] Product product)
         {
@@ -44,6 +48,7 @@ namespace Ecommerce.Controllers
             return CreatedAtAction(nameof(Get), new { id = createdProduct.Id }, createdProduct); // Return 201 with location header
         }
 
+        // Update product
         [HttpPut("{id}")]
         public async Task<ActionResult<Product>> Put(string id, [FromBody] Product product)
         {
@@ -55,6 +60,7 @@ namespace Ecommerce.Controllers
             return Ok(updatedProduct);
         }
 
+        // Delete product
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(string id)
         {

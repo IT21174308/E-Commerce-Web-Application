@@ -15,9 +15,10 @@ public class AuthController : ControllerBase
         _authService = authService;
     }
 
+    // User Register Controller
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserRegisterDTO userRegisterDTO)
-    {   
+    {
         Console.WriteLine(userRegisterDTO.Email);
         var result = await _authService.Register(userRegisterDTO);
 
@@ -29,7 +30,7 @@ public class AuthController : ControllerBase
 
         return BadRequest(result.Errors);
     }
-
+    // User Login Controller
     [HttpPost("login")]
     [AllowAnonymous]
     public async Task<IActionResult> Login(UserLoginDTO userLoginDTO)
@@ -37,7 +38,7 @@ public class AuthController : ControllerBase
         var token = await _authService.Login(userLoginDTO);
         if (token != null)
         {
-            return Ok(token );
+            return Ok(token);
         }
 
         return Unauthorized("Invalid login attempt.");
