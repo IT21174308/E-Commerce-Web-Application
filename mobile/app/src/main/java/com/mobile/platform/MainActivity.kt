@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         // Hide or show bottom navigation based on the fragment
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.LoginFragment, R.id.FirstFragment -> {
+                R.id.LoginFragment, R.id.WelcomeFragment -> {
                     bottomNav.visibility = View.GONE  // Hide for login and registration
                 }
                 else -> {

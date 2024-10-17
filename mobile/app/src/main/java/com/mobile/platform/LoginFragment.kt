@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.mobile.platform.databinding.FragmentFirstBinding
 import com.mobile.platform.databinding.FragmentLoginBinding
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,7 +39,7 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButton.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_SecondFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_HomeFragment)
         }
     }
 
