@@ -23,6 +23,7 @@ namespace Ecommerce.Services
             _configuration = configuration;
         }
 
+        // User Register Service
         public async Task<IdentityResult> Register(UserRegisterDTO userRegisterDTO)
         {
             Console.WriteLine(userRegisterDTO.Email);
@@ -38,16 +39,23 @@ namespace Ecommerce.Services
             return await _userRepository.CreateUserAsync(user, userRegisterDTO.Password);
         }
 
-        public async Task<string> Login(UserLoginDTO userLoginDTO)
+
+        // User Login Service
+        public async Task<LoginResponseDto> Login(UserLoginDTO userLoginDTO)
         {
+            LoginResponseDto loginResponseDto = new LoginResponseDto();
             User user = await _userRepository.FindByEmailAsync(userLoginDTO.Email);
 
             if (user != null && await _userRepository.CheckPasswordAsync(user, userLoginDTO.Password))
             {
-                return GenerateJwtToken(user);
+                // Generate JWT Token
+                loginResponseDto.Token = GenerateJwtToken(user);
             }
 
-            return null;
+            // Set user role
+            loginResponseDto.Role = user.Role;
+
+            return loginResponseDto;
         }
 
 
@@ -56,6 +64,8 @@ namespace Ecommerce.Services
             await _userRepository.Logout();
         }
 
+
+        // Generate JWT Token with user id and email
         private string GenerateJwtToken(User user)
         {
             var tokenHandler = new JwtSecurityTokenHandler();

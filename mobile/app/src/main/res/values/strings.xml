@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Platform</string>
+    <string name="app_name">My E-Commerce App</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
@@ -21,6 +21,24 @@
     <string name="total_items">Total Items</string>
     <string name="total_price">Total Price</string>
     <string name="checkout">Checkout</string>
+
+    <string name="slogan">Step Into the Future of Digital</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="facebook_login">Sign in with Facebook</string>
+    <string name="twitter_login">Sign in with Twitter</string>
+    <string name="google_login">Sign in with Google</string>
+
+    <string name="home">Home</string>
+    <string name="cart">Cart</string>
+    <string name="setting">Setting</string>
+    <string name="account">account</string>
+    <string name="welcome">Welcome!</string>
+
+    <string name="welcome_message">Welcome to Our Store!</string>
+    <string name="discover_products">Discover the Best Products Just for You</string>
+    <string name="signup_button">Sign Up</string>
+    <string name="featured_products">Featured Products</string>
 
     <string name="sign_up_prompt">Don\'t have an account? Sign up</string>
     <string name="login_prompt">Already have an account? Login</string>
@@ -69,7 +87,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
-    <!-- TODO: Remove or change this placeholder text -->
+  
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="cart">Cart</string>
@@ -78,5 +96,6 @@
     <string name="welcome">Welcome!</string>
     <string name="t_shirt">T shirt</string>
     <string name="todo">TODO</string>
-    <string name="pants">Pants</string>
+  <string name="pants">Pants</string>
+
 </resources>

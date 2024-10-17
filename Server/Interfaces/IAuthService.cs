@@ -6,7 +6,7 @@ namespace Ecommerce.Interfaces
     public interface IAuthService
     {
         Task<IdentityResult> Register(UserRegisterDTO userRegisterDTO);
-        Task<string> Login(UserLoginDTO userLoginDTO);
+        Task<LoginResponseDto> Login(UserLoginDTO userLoginDTO);
 
         Task Logout();
     }

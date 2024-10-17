@@ -20,11 +20,7 @@ function Sidebar() {
                         <i className="fa fa-first-order"></i> My Orders
                     </NavLink>
                 </li> 
-                <li className="nav-item">
-                    <NavLink to="/admin/dashboard" className="nav-link" activeClassName="active">
-                        <i className="fa fa-dashboard"></i> Dashboard
-                    </NavLink>
-                </li>
+             
                 <li className="nav-item">
                     <NavLink to="/cancelRequests" className="nav-link" activeClassName="active">
                         <i className="fa fa-note-sticky"></i> Cancel Notice
@@ -46,15 +42,11 @@ function Sidebar() {
                     </NavLink>
                 </li>
                 <li className="nav-item">
-                    <NavLink to="/admin/reports" className="nav-link" activeClassName="active">
-                        <i className="fa fa-file-text"></i> Reports
+                    <NavLink to="/stock" className="nav-link" activeClassName="active">
+                        <i className="fa fa-file-text"></i> Stock
                     </NavLink>
                 </li>
-                <li className="nav-item">
-                    <NavLink to="/admin/settings" className="nav-link" activeClassName="active">
-                        <i className="fa fa-cog"></i> Settings
-                    </NavLink>
-                </li>
+           
             </ul>
         </nav>
     );
