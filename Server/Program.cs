@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 using Ecommerce.Models;
+using Ecommerce.Data;
 using Microsoft.AspNetCore.Identity;
 using MongoDbSettings = Ecommerce.Config.MongoDbSettings;
 var builder = WebApplication.CreateBuilder(args);
@@ -67,6 +68,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
@@ -83,6 +85,19 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+
+// Ensure the database is migrated if necessary
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    // Get the RoleManager service
+    var roleManager = services.GetRequiredService<RoleManager<Role>>();
+
+    // Seed roles and permissions
+    // await RoleSeeder.SeedRolesAndPermissions(roleManager);
+}
 
 // // Configure the HTTP request pipeline
 // if (app.Environment.IsDevelopment())

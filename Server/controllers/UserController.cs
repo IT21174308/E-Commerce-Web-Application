@@ -1,3 +1,5 @@
+using Ecommerce.Interfaces;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -7,53 +9,79 @@ namespace Ecommerce.Controllers
     [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
-        private static readonly List<string> Products = new List<string>
+        private readonly IAuthService _userService;
+
+        public UserController(IAuthService userService)
+        {
+            _userService = userService;
+        }
+        private static readonly List<string> Users = new List<string>
         {
             "User1", "User2", "User3"
         };
 
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return Products;
+            var users = await _userService.GetAllUsersAsync();
+            
+            if (users == null || users.Count == 0)
+            {
+                return NotFound("No users found.");
+            }
+            return Ok(users);
+        }
+
+
+        [HttpGet("by-email/{email}")]
+        public async Task<ActionResult<IEnumerable<User>>> GetUsers(string email)
+        {
+            var users = await _userService.GetUserByEmailAsync(email);
+
+            if (users == null)
+            {
+                return NotFound("No users found.");
+            }
+
+            return Ok(users);
         }
 
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
         {
-            if (id >= Products.Count || id < 0)
+            if (id >= Users.Count || id < 0)
             {
                 return NotFound();
             }
-            return Products[id];
+            return Users[id];
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] string product)
+        public IActionResult Post([FromBody] string user)
         {
-            Products.Add(product);
+            Users.Add(user);
             return Ok();
         }
 
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string product)
+        public IActionResult Put(int id, [FromBody] string user)
         {
-            if (id >= Products.Count || id < 0)
+            if (id >= Users.Count || id < 0)
             {
                 return NotFound();
             }
-            Products[id] = product;
+            Users[id] = user;
             return Ok();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public IActionResult Delete(int user)
         {
-            if (id >= Products.Count || id < 0)
+            if (user >= Users.Count || user < 0)
             {
                 return NotFound();
             }
-            Products.RemoveAt(id);
+            Users.RemoveAt(user);
             return Ok();
         }
     }

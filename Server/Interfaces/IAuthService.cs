@@ -1,4 +1,5 @@
 using Ecommerce.DTOs;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Identity;
 
 namespace Ecommerce.Interfaces
@@ -9,5 +10,9 @@ namespace Ecommerce.Interfaces
         Task<LoginResponseDto> Login(UserLoginDTO userLoginDTO);
 
         Task Logout();
+
+        Task<List<User>> GetAllUsersAsync();
+
+        Task<User> GetUserByEmailAsync(string email);
     }
 }

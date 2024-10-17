@@ -23,7 +23,7 @@ namespace Ecommerce.DTOs
         public string Password { get; set; }
 
         [Required]
-        public UserRole Role { get; set; }
+        public string Role { get; set; }
 
     }
 }
