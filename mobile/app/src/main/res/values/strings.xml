@@ -15,6 +15,12 @@
     <string name="forgot_password">Forgot Password?</string>
     <string name="login_button">Login</string>
     <string name="register_button">Sign Up</string>
+    <string name="product_name">Product Name</string>
+    <string name="product_price">Price</string>
+    <string name="product_image">Product Image</string>
+    <string name="total_items">Total Items</string>
+    <string name="total_price">Total Price</string>
+    <string name="checkout">Checkout</string>
 
     <string name="sign_up_prompt">Don\'t have an account? Sign up</string>
     <string name="login_prompt">Already have an account? Login</string>
@@ -70,4 +76,7 @@
     <string name="setting">Setting</string>
     <string name="account">account</string>
     <string name="welcome">Welcome!</string>
+    <string name="t_shirt">T shirt</string>
+    <string name="todo">TODO</string>
+    <string name="pants">Pants</string>
 </resources>

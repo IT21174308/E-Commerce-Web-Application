@@ -14,6 +14,9 @@ activity = "1.8.0"
 annotation = "1.6.0"
 lifecycleLivedataKtx = "2.6.1"
 lifecycleViewmodelKtx = "2.6.1"
+volley = "1.2.1"
+glide = "4.13.2"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -29,6 +32,14 @@ androidx-activity = { group = "androidx.activity", name = "activity", version.re
 androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
 androidx-lifecycle-livedata-ktx = { group = "androidx.lifecycle", name = "lifecycle-livedata-ktx", version.ref = "lifecycleLivedataKtx" }
 androidx-lifecycle-viewmodel-ktx = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-ktx", version.ref = "lifecycleViewmodelKtx" }
+
+# Retrofit and Gson Converter
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version = "2.9.0" }
+gson-converter = { group = "com.squareup.retrofit2", name = "converter-gson", version = "2.9.0" }
+
+volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
+glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
+glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
