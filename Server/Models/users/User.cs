@@ -19,7 +19,7 @@ namespace Ecommerce.Models
         public string Mobile { get; set; }
 
         [PersonalData]
-        public UserRole Role { get; set; } = UserRole.Customer;
+        public Role Role { get; set; }
 
     }
 }

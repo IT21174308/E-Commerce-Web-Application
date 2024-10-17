@@ -10,5 +10,7 @@ public enum UserRole
     [BsonRepresentation(BsonType.String)]
     Vendor,
     [BsonRepresentation(BsonType.String)]
-    Customer
+    Customer,
+    [BsonRepresentation(BsonType.String)]
+    CSR
 }

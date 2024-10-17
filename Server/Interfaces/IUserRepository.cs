@@ -10,5 +10,11 @@ namespace Ecommerce.Interfaces
         Task<User> FindByEmailAsync(string email);
         Task<bool> CheckPasswordAsync(User user, string password);
         Task Logout();
+
+        Task<List<User>> GetAllUsersAsync();
+
+        Task UpdateUserAsync(User user);
+
+        Task<User> GetUserByEmailAsync(string email);
     }
 }

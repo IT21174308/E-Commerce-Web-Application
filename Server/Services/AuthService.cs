@@ -7,7 +7,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using Ecommerce.Models;
-
+using Ecommerce.Repositories;
+using Ecommerce.Enums;
 
 
 namespace Ecommerce.Services
@@ -16,24 +17,34 @@ namespace Ecommerce.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IConfiguration _configuration;
+        private readonly IRoleRepository _roleRepository;
 
-        public AuthService(IUserRepository userRepository, IConfiguration configuration)
+        public AuthService(IUserRepository userRepository, IConfiguration configuration, IRoleRepository roleRepository)
         {
             _userRepository = userRepository;
             _configuration = configuration;
+            _roleRepository = roleRepository;
         }
 
         // User Register Service
         public async Task<IdentityResult> Register(UserRegisterDTO userRegisterDTO)
         {
             Console.WriteLine(userRegisterDTO.Email);
+
+            var userRole = await _roleRepository.GetRoleByNameAsync(userRegisterDTO.Role.ToString());
+
+            if (userRole == null)
+            {
+                throw new Exception("Role not found.");
+            }
             var user = new Models.User
             {
                 FirstName = userRegisterDTO.FirstName,
                 LastName = userRegisterDTO.LastName,
                 UserName = userRegisterDTO.Email,
                 Mobile = userRegisterDTO.Mobile,
-                Email = userRegisterDTO.Email
+                Email = userRegisterDTO.Email,
+                Role = userRole,
             };
 
             return await _userRepository.CreateUserAsync(user, userRegisterDTO.Password);
@@ -53,7 +64,14 @@ namespace Ecommerce.Services
             }
 
             // Set user role
-            loginResponseDto.Role = user.Role;
+            if (Enum.TryParse<UserRole>(user.Role.ToString(), out var userRole))
+            {
+                loginResponseDto.Role = userRole;
+            }
+            else
+            {
+                throw new Exception("Invalid role type.");
+            }
 
             return loginResponseDto;
         }
@@ -82,6 +100,31 @@ namespace Ecommerce.Services
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
+        }
+
+        public async Task<List<User>> GetAllUsersAsync()
+        {
+            var users = await _userRepository.GetAllUsersAsync();
+
+            foreach (var user in users)
+            {
+                if (user.Role != null)
+                {
+                    var role = await _roleRepository.GetRoleByNameAsync(UserRole.Admin.ToString());
+                    if (role != null)
+                    {
+                        user.Role = role; // Set the complex role object
+                        await _userRepository.UpdateUserAsync(user); // Update the user document
+                    }
+                }
+            }
+            return await _userRepository.GetAllUsersAsync();
+        }
+
+        public async Task<User> GetUserByEmailAsync(string email)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(email);
+            return user;
         }
     }
 }
