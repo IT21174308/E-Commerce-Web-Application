@@ -1,68 +1,113 @@
 package com.mobile.platform.ui
 
-import android.annotation.SuppressLint
+import Product
+import ProductsAdapter
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.SearchView
+import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.VolleyError
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.example.ecommerceapp.ProductAdapter
 import com.mobile.platform.R
-import com.mobile.platform.api.Product
-import org.json.JSONArray
-import org.json.JSONException
-import org.json.JSONObject
+import com.mobile.platform.api.ProductsResponse
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity()  {
 
+    private lateinit var productsAdapter: ProductsAdapter
     private lateinit var recyclerView: RecyclerView
-    private lateinit var productAdapter: ProductAdapter
-    private val productList = ArrayList<Product>()
+    private lateinit var searchView: SearchView
+    private lateinit var categorySpinner: Spinner
+
+    private var allProducts: List<Product> = listOf()  // To store the original list of products
+    private var filteredProducts: List<Product> = listOf()  // To store filtered list
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        recyclerView = findViewById(R.id.recyclerView)
-        productAdapter = ProductAdapter(this, productList)
+        recyclerView = findViewById(R.id.recycler_view)
+        searchView = findViewById(R.id.search_view)
+        categorySpinner = findViewById(R.id.category_spinner)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = productAdapter
 
         fetchProducts()
+
+        setupSearchView()
+        setupCategorySpinner()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
     private fun fetchProducts() {
-        val url = "https://dummyjson.com/products"
+        val call = RetrofitClient.apiService.getProducts()
 
-        val queue: RequestQueue = Volley.newRequestQueue(this)
-        val jsonObjectRequest = JsonObjectRequest(
-            Request.Method.GET, url, null,
-            { response ->
-                try {
-                    val products: JSONArray = response.getJSONArray("products")
-                    for (i in 0 until products.length()) {
-                        val product: JSONObject = products.getJSONObject(i)
-                        val image = product.getString("imglink")
-                        val title = product.getString("title")
-                        productList.add(Product(image, title))
-                    }
-                    productAdapter.notifyDataSetChanged()
-                } catch (e: JSONException) {
-                    Toast.makeText(this, "Error parsing JSON", Toast.LENGTH_SHORT).show()
+        call.enqueue(object : Callback<ProductsResponse> {
+            override fun onResponse(call: Call<ProductsResponse>, response: Response<ProductsResponse>) {
+                if (response.isSuccessful) {
+                    allProducts = response.body()?.products ?: emptyList()
+                    filteredProducts = allProducts  // Initially set filteredProducts as allProducts
+                    productsAdapter = ProductsAdapter(filteredProducts, this@HomeActivity)  // Pass context
+                    recyclerView.adapter = productsAdapter
                 }
-            },
-            { error: VolleyError ->
-                Toast.makeText(this, "Error fetching data", Toast.LENGTH_SHORT).show()
             }
-        )
 
-        queue.add(jsonObjectRequest)
+            override fun onFailure(call: Call<ProductsResponse>, t: Throwable) {
+                Toast.makeText(this@HomeActivity, "Failed to load products", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Set up search functionality
+    private fun setupSearchView() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterProducts(newText, categorySpinner.selectedItem.toString())
+                return true
+            }
+        })
+    }
+
+    // Set up category filtering
+    private fun setupCategorySpinner() {
+        categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                filterProducts(searchView.query.toString(), categorySpinner.selectedItem.toString())
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
+    // Filter products based on search text and selected category
+    private fun filterProducts(query: String?, category: String) {
+        var filteredList = allProducts
+
+        // Filter by search query
+        if (!query.isNullOrEmpty()) {
+            filteredList = filteredList.filter {
+                it.title.contains(query, ignoreCase = true)
+            }
+        }
+
+        // Filter by category
+        if (category != "All Categories") {
+            filteredList = filteredList.filter {
+                it.category.equals(category, ignoreCase = true)
+            }
+        }
+
+        // Update the filtered list in the adapter
+        filteredProducts = filteredList
+        productsAdapter = ProductsAdapter(filteredProducts, this@HomeActivity)  // Pass context
+        recyclerView.adapter = productsAdapter
     }
 }
