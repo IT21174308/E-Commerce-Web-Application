@@ -5,7 +5,7 @@ import { useAuth } from '../auth/AuthContext';
 function Header() {
   // Manage the logged-in state (this can be passed as props or from a global state like Redux)
   const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const { logout } = useAuth();
+  const {isAuthenticated, logout } = useAuth();
 
   // Function to handle logout (this can be replaced with actual logout logic)
   const handleLogout = () => {
@@ -24,7 +24,7 @@ function Header() {
         </a>
 
         {/* Conditional rendering based on login state */}
-        {isLoggedIn ? (
+        {isAuthenticated ? (
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
               {/* <li className="nav-item">
