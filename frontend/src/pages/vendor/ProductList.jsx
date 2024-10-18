@@ -5,6 +5,8 @@ import Header from '../../components/header'; // Adjust the import path as neces
 import Footer from '../../components/footer'; // Adjust the import path as necessary
 import Sidebar from '../../components/sidebar'; // Adjust the import path as necessary
 import { Modal, Button } from 'react-bootstrap'; // Import Modal from react-bootstrap
+import { useAPI } from '../../hooks/useAPI';
+import AxiosInstance from '../../utils/axios';
 
 const initialProducts = [
     { productId: "P001", name: "Product 1", brand: "Brand A", quantity: 50, price: 100, image: require('../../assets/bag.webp').default, reorderLevel: 30, stock: 40, isActive: true },
@@ -15,9 +17,11 @@ const initialProducts = [
 ];
 
 function ProductList() {
-    const [products, setProducts] = useState(initialProducts);
+    // const [products, setProducts] = useState(initialProducts);
+    const [refresh, setRefresh] = useState(false);
+    const { data: products, error, loading } = useAPI('api/products', refresh);
     const [activeTab, setActiveTab] = useState('view');
-    const [newProduct, setNewProduct] = useState({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
+    const [newProduct, setNewProduct] = useState({ Name: '', Brand: '', Quantity: '', Price: 0, Image: '', reorderLevel: '', stock: '', Description: '' });
     const [showModal, setShowModal] = useState(false); // State for modal visibility
     const [currentProduct, setCurrentProduct] = useState(null); // State for current product being edited
     const [showImageModal, setShowImageModal] = useState(false); // State for image zoom modal
@@ -39,21 +43,38 @@ function ProductList() {
         }
     };
 
-    const handleAddProduct = () => {
-        setProducts([...products, newProduct]);
-        setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
-        setActiveTab('view');
+    const handleAddProduct = async () => {
+        // setProducts([...products, newProduct]);
+        // setNewProduct({ productId: '', name: '', brand: '', quantity: '', price: '', image: '', reorderLevel: '', stock: '' });
+        try {
+            console.log(newProduct);
+            const resp = await AxiosInstance.post('api/products', newProduct);
+            console.log(resp.data)
+            setRefresh(prev=>!prev)
+            setActiveTab('view');
+        } catch (error) {
+            alert('Failed to add product');
+            console.log(error);
+        }
     };
 
     const handleEdit = (product) => {
         setCurrentProduct(product); // Set the current product to edit
         setNewProduct(product); // Populate the form with the product details
+        console.log(product);
         setShowModal(true); // Show the modal
     };
 
-    const handleDelete = (productId) => {
-        const updatedProducts = products.filter(product => product.productId !== productId);
-        setProducts(updatedProducts);
+    const handleDelete = async (productId) => {
+        try {
+            const resp = await AxiosInstance.delete(`api/products/${productId}`);
+            console.log(resp.data);
+            setRefresh(prev=>!prev)
+        } catch (error) {
+            alert('Failed to delete product');
+            console.log(error);
+        }
+        // setProducts(updatedProducts);
     };
 
     const handleCloseModal = () => {
@@ -63,10 +84,18 @@ function ProductList() {
     };
 
     const handleSaveChanges = () => {
-        const updatedProducts = products.map(product =>
-            product.productId === currentProduct.productId ? newProduct : product
-        );
-        setProducts(updatedProducts);
+        try {
+            const resp = AxiosInstance.put(`api/products/${currentProduct.id}`, newProduct);
+            console.log(resp.data);
+            setRefresh(prev=>!prev)
+        } catch (error) {
+            alert('Failed to update product');
+            console.log(error);
+        }
+        // const updatedProducts = products.map(product =>
+        //     product.productId === currentProduct.productId ? newProduct : product
+        // );
+        // setProducts(updatedProducts);
         handleCloseModal();
     };
 
@@ -74,7 +103,7 @@ function ProductList() {
         const updatedProducts = products.map((product) =>
             product.productId === productId ? { ...product, isActive: !product.isActive } : product
         );
-        setProducts(updatedProducts);
+        // setProducts(updatedProducts);
     };
 
     // Function to handle image zoom
@@ -127,15 +156,15 @@ function ProductList() {
                                         </thead>
                                         <tbody>
                                             {products.map((product) => (
-                                                <tr key={product.productId} className={product.reorderLevel > product.stock ? 'table-danger' : ''}>
-                                                    <td>{product.productId}</td>
+                                                <tr key={product?.id} className={product.reorderLevel > product.stock ? 'table-danger' : ''}>
+                                                    <td>{product?.id}</td>
                                                     <td>{product.name}</td>
                                                     <td>
                                                         {product.image && (
-                                                            <img 
-                                                                src={product.image} 
-                                                                alt={product.name} 
-                                                                style={{ width: '50px', height: '50px', objectFit: 'cover', cursor: 'pointer' }} 
+                                                            <img
+                                                                src={product.image}
+                                                                alt={product.name}
+                                                                style={{ width: '50px', height: '50px', objectFit: 'cover', cursor: 'pointer' }}
                                                                 onClick={() => handleImageClick(product.image)} // Open zoom on click
                                                             />
                                                         )}
@@ -154,7 +183,7 @@ function ProductList() {
                                                             <i className="fa fa-pencil" style={{ color: 'green', cursor: 'pointer' }} onClick={() => handleEdit(product)}></i>
                                                         </span>
                                                         <span data-bs-toggle="tooltip" data-bs-placement="top" title="Delete">
-                                                            <i className="fa fa-trash" style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(product.productId)}></i>
+                                                            <i className="fa fa-trash" style={{ color: 'red', cursor: 'pointer' }} onClick={() => handleDelete(product.id)}></i>
                                                         </span>
                                                         <span className="ms-2" data-bs-toggle="tooltip" data-bs-placement="top" title={product.isActive ? "Deactivate" : "Activate"}>
                                                             <i className={`fa ${product.isActive ? 'fa-toggle-on' : 'fa-toggle-off'}`}
@@ -180,8 +209,8 @@ function ProductList() {
                                                     <span className="input-group-text">
                                                         <i className="fa fa-tag" aria-hidden="true"></i>
                                                     </span>
-                                                    <input type="text" className="form-control" id="productName" name="name"
-                                                        value={newProduct.name}
+                                                    <input type="text" className="form-control" id="productName" name="Name"
+                                                        value={newProduct.Name}
                                                         onChange={handleInputChange}
                                                         placeholder="Enter Product Name"
                                                     />
@@ -193,8 +222,8 @@ function ProductList() {
                                                     <span className="input-group-text">
                                                         <i className="fa fa-industry" aria-hidden="true"></i>
                                                     </span>
-                                                    <input type="text" className="form-control" id="productBrand" name="brand"
-                                                        value={newProduct.brand}
+                                                    <input type="text" className="form-control" id="productBrand" name="Brand"
+                                                        value={newProduct.Brand}
                                                         onChange={handleInputChange}
                                                         placeholder="Enter Brand Name"
                                                     />
@@ -208,8 +237,8 @@ function ProductList() {
                                                     <span className="input-group-text">
                                                         <i className="fa fa-cubes" aria-hidden="true"></i>
                                                     </span>
-                                                    <input type="number" className="form-control" id="productQuantity" name="quantity"
-                                                        value={newProduct.quantity}
+                                                    <input type="number" className="form-control" id="productQuantity" name="Quantity"
+                                                        value={newProduct.Quantity}
                                                         onChange={handleInputChange}
                                                         placeholder="Enter Quantity"
                                                     />
@@ -221,8 +250,8 @@ function ProductList() {
                                                     <span className="input-group-text">
                                                         <i className="fa fa-money" aria-hidden="true"></i>
                                                     </span>
-                                                    <input type="number" className="form-control" id="productPrice" name="price"
-                                                        value={newProduct.price}
+                                                    <input type="number" className="form-control" id="productPrice" name="Price"
+                                                        value={newProduct.Price}
                                                         onChange={handleInputChange}
                                                         placeholder="Enter Price"
                                                     />
@@ -233,6 +262,19 @@ function ProductList() {
                                             <div className="col-md-6">
                                                 <label htmlFor="productImage" className="form-label">Product Image</label>
                                                 <input type="file" className="form-control" id="productImage" onChange={handleImageChange} />
+                                            </div>
+                                            <div className="col-md-6">
+                                                <label htmlFor="productBrand" className="form-label">Description</label>
+                                                <div className="input-group">
+                                                    <span className="input-group-text">
+                                                        <i className="fa fa-industry" aria-hidden="true"></i>
+                                                    </span>
+                                                    <input type="text" className="form-control" id="desc" name="Description"
+                                                        value={newProduct.Description}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Enter Brand Name"
+                                                    />
+                                                </div>
                                             </div>
                                         </div>
                                         <button type="button" className="btn btn-primary" onClick={handleAddProduct}>Add Product</button>
@@ -254,19 +296,19 @@ function ProductList() {
                     <form>
                         <div className="form-group mb-2">
                             <label>Product ID:</label>
-                            <input type="text" className="form-control" name="productId" value={newProduct.productId} onChange={handleInputChange} />
+                            <input type="text" className="form-control" name="productId" value={newProduct.id} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mb-2">
                             <label>Name:</label>
-                            <input type="text" className="form-control" name="name" value={newProduct.name} onChange={handleInputChange} />
+                            <input type="text" className="form-control" name="name" value={newProduct?.name} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mb-2">
                             <label>Brand:</label>
-                            <input type="text" className="form-control" name="brand" value={newProduct.brand} onChange={handleInputChange} />
+                            <input type="text" className="form-control" name="brand" value={newProduct?.brand} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mb-2">
                             <label>Quantity:</label>
-                            <input type="number" className="form-control" name="quantity" value={newProduct.quantity} onChange={handleInputChange} />
+                            <input type="number" className="form-control" name="quantity" value={newProduct?.quantity} onChange={handleInputChange} />
                         </div>
                         <div className="form-group mb-2">
                             <label>Price:</label>
@@ -282,7 +324,7 @@ function ProductList() {
                         </div>
                         <div className="form-group mb-2">
                             <label>Image:</label>
-                            <input type="file" className="form-control-file" onChange={handleImageChange} />
+                            <img src={newProduct?.image} style={{ width: '100px', height: '100px' }} />
                         </div>
                         <div className="form-group mb-2">
                             <label>Status:</label>

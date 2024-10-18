@@ -61,7 +61,7 @@ function Sidebar() {
           </li>
         )}
 
-        {hasPermission(Permission.VIEW_PRODUCTS) && (
+        {/* {hasPermission(Permission.VIEW_PRODUCTS) && ( */}
           <li className="nav-item">
             <NavLink
               to="/vendor/products"
@@ -71,7 +71,7 @@ function Sidebar() {
               <i className="fa fa-product-hunt"></i> Products
             </NavLink>
           </li>
-        )}
+        {/* )} */}
 
         {hasPermission(Permission.VIEW_INVENTORY) && (
           <li className="nav-item">
