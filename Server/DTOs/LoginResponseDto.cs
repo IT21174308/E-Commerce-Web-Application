@@ -13,5 +13,7 @@ namespace Ecommerce.DTOs
         [Required]
         public UserRole Role { get; set; }
 
+        public UserDTO User { get; set; }
+
     }
 }

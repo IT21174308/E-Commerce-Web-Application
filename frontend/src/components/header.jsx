@@ -1,13 +1,16 @@
 import React, { useState } from 'react';
 import logo from '../assets/logo.png'; // Adjust the path according to your folder structure
+import { useAuth } from '../auth/AuthContext';
 
 function Header() {
   // Manage the logged-in state (this can be passed as props or from a global state like Redux)
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+  const { logout } = useAuth();
 
   // Function to handle logout (this can be replaced with actual logout logic)
   const handleLogout = () => {
     setIsLoggedIn(true);
+    logout();
     // Add actual logout functionality here
   };
 
