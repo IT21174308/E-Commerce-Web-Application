@@ -73,6 +73,16 @@ namespace Ecommerce.Services
                 throw new Exception("Invalid role type.");
             }
 
+            loginResponseDto.User = new UserDTO
+            {
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                Email = user.Email,
+                Permissions = user.Role.Permissions,
+                Role = userRole
+            };
+
+            Console.WriteLine(loginResponseDto.User);
             return loginResponseDto;
         }
 

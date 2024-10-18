@@ -35,10 +35,10 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<IActionResult> Login(UserLoginDTO userLoginDTO)
     {
-        var token = await _authService.Login(userLoginDTO);
-        if (token != null)
+        var loginResponse = await _authService.Login(userLoginDTO);
+        if (loginResponse != null)
         {
-            return Ok(token);
+            return Ok(loginResponse);
         }
 
         return Unauthorized("Invalid login attempt.");
