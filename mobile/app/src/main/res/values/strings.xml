@@ -74,9 +74,23 @@
     <string name="home">Home</string>
     <string name="cart">Cart</string>
     <string name="setting">Setting</string>
-    <string name="account">account</string>
+    <string name="account">Account</string>
     <string name="welcome">Welcome!</string>
     <string name="t_shirt">T shirt</string>
     <string name="todo">TODO</string>
     <string name="pants">Pants</string>
+    <string name="add_to_cart">Add to Cart</string>
+
+    <!-- Categories array for the Spinner -->
+    <string-array name="category_list">
+        <item>All Categories</item>
+        <item>Beauty</item>
+        <item>Electronics</item>
+        <item>Furniture</item>
+        <item>Groceries</item>
+        <item>Clothing</item>
+        <item>Sports</item>
+        <item>Books</item>
+    </string-array>
+
 </resources>
