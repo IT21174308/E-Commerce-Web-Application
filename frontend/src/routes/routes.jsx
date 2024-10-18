@@ -10,6 +10,7 @@ import ViewItemPage from '../pages/user/viewItemPage';
 import MyCart from '../pages/user/MyCart';
 import MyOrders from '../pages/user/MyOrders';
 import CancelRequests from '../pages/admin/CancelRequests';
+import StockList from '../pages/vendor/StockList';
 
 function AppRoutes() {
   return (
@@ -23,6 +24,7 @@ function AppRoutes() {
         <Route path="/vendor/products" element={<ProductList />} />
         <Route path="/orders" element={<OrderManagement />} />
         <Route path="/cancelRequests" element={<CancelRequests />} />
+        <Route path="/stock" element={<StockList />} />
 
         {/* customer routes */}
         <Route path="/home" element={<HomePage />} />

@@ -6,10 +6,10 @@ namespace Ecommerce.Interfaces
 {
     public interface IProductRepository
     {
-        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task<List<Product>> GetAllProductsAsync();
         Task<Product> GetProductByIdAsync(string id);
 
-        Task<Product> UpdateProductAsync(Product updateProductDto);
+        Task<Product> UpdateProductAsync(String id, Product updateProductDto);
         Task DeleteProductAsync(string id);
         Task<Product> CreateProductAsync(Product product);
     }

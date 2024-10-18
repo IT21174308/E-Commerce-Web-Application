@@ -1,5 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Ecommerce.Enums;
 
 namespace Ecommerce.DTOs
 {
@@ -20,6 +21,9 @@ namespace Ecommerce.DTOs
 
         [Required]
         public string Password { get; set; }
+
+        [Required]
+        public UserRole Role { get; set; }
 
     }
 }

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Background gradient -->
+    <item>
+        <shape>
+            <gradient
+                android:startColor="#6C4AB6"
+                android:endColor="#A279FF"
+                android:angle="90" />
+        </shape>
+    </item>
+
+    <!-- Circular shape 1 (Top left) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#B48EFF" />
+        </shape>
+        <translate
+            android:fromXDelta="-30%"
+            android:fromYDelta="-50%" />
+    </item>
+
+    <!-- Circular shape 2 (Bottom right) -->
+    <item>
+        <shape android:shape="oval">
+            <solid android:color="#7A5BF2" />
+        </shape>
+        <translate
+            android:fromXDelta="50%"
+            android:fromYDelta="70%" />
+    </item>
+
+<!--    &lt;!&ndash; Arrows with circles (center) &ndash;&gt;-->
+<!--    <item>-->
+<!--        <bitmap-->
+<!--            android:src="@drawable/ic_settings_24"-->
+<!--            android:gravity="center" />-->
+<!--    </item>-->
+
+</layer-list>
